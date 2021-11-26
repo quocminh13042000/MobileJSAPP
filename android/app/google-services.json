@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "376719651300",
+    "project_id": "ordinal-throne-318602",
+    "storage_bucket": "ordinal-throne-318602.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:376719651300:android:e317aff00a7908c520d7f1",
+        "android_client_info": {
+          "package_name": "com.sample.test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "376719651300-4teqohs2b8ikamqmjvg1thevii0nkr2g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqrsF3NzErhHR6Y_uvfK27YC5pRMfKzEk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "376719651300-4teqohs2b8ikamqmjvg1thevii0nkr2g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
