@@ -13,6 +13,7 @@ import Loading from "../Loading";
 import { useState } from "react";
 import { WebsocketService, SendData } from "../../services/websocket.service";
 import { UserServices } from "../../services/User.service";
+
 function LogoutComponent({ navigation }) {
   var [user, setUser] = useState("");
   var [password, setPassword] = useState("");
@@ -39,7 +40,7 @@ function LogoutComponent({ navigation }) {
           UserServices.Level = 0;
         }
         SetLoad(false);
-      }, 400);
+      }, 500);
     }
   };
 
@@ -65,11 +66,10 @@ function LogoutComponent({ navigation }) {
           <View>
             <View>
               <Image
-                style={(loginStyle.logo)}
+                style={loginStyle.logo}
                 source={require("../../../assets/Logo.png")}
               ></Image>
             </View>
-
             <Text style={loginStyle.text}> Fire Alarm Monitoring </Text>
             <TextInput
               placeholder="Username"
@@ -108,13 +108,12 @@ function LogoutComponent({ navigation }) {
 
 export default LogoutComponent;
 
-
 const loginStyle = StyleSheet.create({
   logo: {
     justifyContent: "space-between",
     alignSelf: "center",
     width: 140,
-    height:150
+    height: 150,
   },
   text: {
     fontSize: 25,
@@ -177,7 +176,6 @@ const loginStyle = StyleSheet.create({
     alignSelf: "center",
   },
 });
-
 
 const loadingStyle = StyleSheet.create({
   container: {

@@ -13,18 +13,17 @@ import { useNavigation } from "@react-navigation/native";
 import { UserServices } from "../../../services/User.service";
 import SoundPlayer from "react-native-sound-player";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import PushNotification from "react-native-push-notification";
 
 import { interval, Subscription } from "rxjs";
 const token = UserServices.token;
 var listUser = UserServices.listUser;
-console.log("listUser");
 
 var updateSubscription = new Subscription();
 
+var clientconnect = false;
 export default class Home extends React.Component {
-
   constructor(props) {
-    updateSubscription.unsubscribe();
     super(props);
     this.state = { userId: "", to: "", connected: false, clientId: "" };
     this.client = React.createRef();
@@ -40,22 +39,26 @@ export default class Home extends React.Component {
   }
 
   componentDidMount() {
-    updateSubscription = interval(1000).subscribe((val) => {
-      if (UserServices.token != "") {
-        this.client.current.connect(UserServices.token);
-        listUser = UserServices.listUser;
-        console.log("connect");
-        updateSubscription.unsubscribe();
-        updateSubscription = new Subscription();
+    /*this.refs.stringeeClient.registerPush(
+      UserServices.token,
+      false, // only for iOS
+      false, // only for iOS
+      (status, code, message) => {
+        console.log(message);
       }
-    });
+    );*/
+    if (UserServices.token == "") {
+      setTimeout(() => {
+        this.componentDidMount();
+      }, 2000);
+    } else {
+      this.client.current.connect(UserServices.token);
+      listUser = UserServices.listUser;
+    }
   }
-
-  //Event
   // The client connects to Stringee server
   clientDidConnect = ({ userId }) => {
     console.log("clientDidConnect - " + userId);
-    updateSubscription.unsubscribe();
     this.setState({
       userId: userId,
       connected: true,
@@ -83,7 +86,7 @@ export default class Home extends React.Component {
   clientRequestAccessToken = () => {
     console.log("_clientRequestAccessToken");
     // Token để kết nối tới Stringee server đã hết bạn. Bạn cần lấy token mới và gọi connect lại ở đây
-    this.client.current.connect("NEW_TOKEN");
+    this.client.current.connect(UserServices.token);
   };
 
   // IncomingCall event
@@ -115,8 +118,23 @@ export default class Home extends React.Component {
         "customDataFromYourServer-" +
         customDataFromYourServer
     );
+    PushNotification.localNotification({
+      //ios and android properties
+      title: "Cuộc gọi từ ITE R&D",
+      message: "Cuốc gọi : "+ to,
+      playSound: true,
+      soundName: "default",
+      //android only properties
+      channelId: "Calling",
+      autoCancel: false,
+      vibrate: true,
+      vibration: 300,
+      priority: "high",
+      invokeApp: false,
+      actions: ["Accept", "Reject"],
+    });
 
-    SoundPlayer.playSoundFile("telephone", "wav");
+    //SoundPlayer.playSoundFile("telephone", "wav");
     this.props.navigation.navigate("Call", {
       callId: callId,
       from: from,
@@ -200,16 +218,33 @@ export default class Home extends React.Component {
   };
 
   call = (data) => {
-    console.log(data);
     this.callButtonClick(true, false, data);
+  };
+
+  push_notif = async () => {
+    await PushNotification.localNotification({
+      //ios and android properties
+      title: "ITE R&D thông báo cuộc gọi",
+      message: "Cuốc gọi từ: " ,
+      id:'Call',
+      playSound: true,
+      soundName: "default",
+      //android only properties
+      channelId: "Calling",
+      autoCancel: false,
+      vibrate: true,
+      vibration: 300,
+      priority: "high",
+      invokeApp: false,
+      actions: ["Accept", "Reject"],
+    });
   };
 
   render() {
     return (
       <>
         <View style={this.styles.container}>
-          <Text style={this.styles.info}>Call to:</Text>
-
+          <Text style={this.styles.info}> Call to: </Text>
           <View style={this.styles.rowButton}>
             <TextInput
               underlineColorAndroid="transparent"
@@ -311,6 +346,14 @@ export default class Home extends React.Component {
             ))}
           </View>
         ) : null}
+        <View>
+          <TouchableOpacity
+            style={this.styles.button}
+            onPress={this.push_notif}
+          >
+            <Text> Press Here </Text>
+          </TouchableOpacity>
+        </View>
       </>
     );
   }

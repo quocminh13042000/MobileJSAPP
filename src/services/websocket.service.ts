@@ -4,7 +4,7 @@ import React from "react";
 import { CameraService } from "./camera.service";
 
 
-const socket = io("http://192.168.11.141:3000", {
+const socket = io("http://192.168.11.154:3000", {
   transports: ["websocket", "polling", "flashsocket"],
 });
 
@@ -273,8 +273,9 @@ function setDisableData(a: any) {
 }
 
 function SetLogin(level: any) {
-  var client = React.createRef();
-  if (level.length != 0)
+  console.log(level[0].length)
+  if (level[0].length != 0) {
+    console.log(level[0][0].levelManager);
     switch (level[0][0].levelManager) {
       case 1:
         UserServices.Level = 1;
@@ -292,10 +293,11 @@ function SetLogin(level: any) {
         UserServices.show = "Login Failed";
         break;
     }
+    UserServices.token =level[0][0].tokenCall;
+  }
   else {
     UserServices.show = "Login Failed";
   }
-  console.log(level[0].tokenCall);
-  UserServices.token =level[0][0].tokenCall;
+  
 
 }

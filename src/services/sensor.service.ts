@@ -3,6 +3,9 @@ import { WebsocketService } from './websocket.service'
 import { UserServices } from './User.service'
 import { io } from 'socket.io-client';
 import * as  React from "react";
+import PushNotification from "react-native-push-notification";
+
+
 /*import * as Notifications from 'expo-notifications';
 
 Notifications.setNotificationHandler({
@@ -32,7 +35,7 @@ async function schedulePushNotification(alert_data: alert, map: number) {
   });
 }*/
 
-const socket = io("http://192.168.11.141:3000", {
+const socket = io("http://192.168.11.154:3000", {
   transports: ["websocket", "polling", "flashsocket"],
 });
 socket.connect();
@@ -129,5 +132,35 @@ function parseData(data: alert) {
       WebsocketService.Area1.CheckFloor[1] = true;
       break;
   }
+}
+
+
+
+async function Pushnotification(alert_data: alert, map: number) {
+    let nameZone;
+    switch (map) {
+      case 1:
+        nameZone = "Trạm Phú Lâm";
+        break;
+      case 2:
+        break;
+    }
+   await PushNotification.localNotification({
+     //ios and android properties
+     title: "Báo cháy khẩn cấp",
+     message: "Trạm " + nameZone + " is burning",
+     playSound: true,
+     soundName: "default",
+     //android only properties
+     channelId: "Alert_PCCC",
+     autoCancel: true,
+     bigText: "Báo cháy khẩn cấp",
+     subText: "Báo cháy khẩn cấp",
+     vibrate: true,
+     vibration: 300,
+     priority: "high",
+     invokeApp: false,
+   });
+
 }
 

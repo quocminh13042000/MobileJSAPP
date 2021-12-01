@@ -20,12 +20,40 @@ import { WebView } from "react-native-webview";
 import { CameraService } from "../../../services/camera.service";
 
 var updateSubscription = new Subscription();
+
 function Floor_1_Screen() {
   var cam = CameraService.Camera;
-  var [zone_1,setSensor_z1] = useState([false, false, false, false, false, false]);
-  var [zone_2,setSensor_z2] = useState([false, false, false, false, false, false, false, false, false, false, false]);
+  var [zone_1, setSensor_z1] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
+  var [zone_2, setSensor_z2] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
   var [zone_3, setSensor_z3] = useState([false, false, false]);
-  var [zone_4,setSensor_z4] = useState([false, false, false, false, false, false, false]);
+  var [zone_4, setSensor_z4] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
   var [idCam, setIdCam] = useState(cam.zone1);
   var [id, setID] = useState(0);
   var [en_z1, setData_1] = useState(WebsocketService.Area1.Floor[0]);
@@ -47,10 +75,11 @@ function Floor_1_Screen() {
     setData_4((x) => (x = WebsocketService.Area1.Floor[3]));
     cam = CameraService.Camera;
   });
-  but = (idzone) => {
+  but = async (idzone) => {
     setModalVisible(!modalVisible);
-    addIdCam(idzone);
-    setID(idzone);
+    await addIdCam(idzone);
+    await setID(idzone);
+    console.log(idCam);
   };
 
   addIdCam = (idzone) => {
@@ -481,24 +510,16 @@ function Floor_1_Screen() {
           ></Rect>
         </G>
         <G onPress={() => but(2)} x="20%" y="32%">
-          <Rect x="20%" y="32%" width="28%" height="50%" opacity="0.15">
-            
-          </Rect>
+          <Rect x="20%" y="32%" width="28%" height="50%" opacity="0.15"></Rect>
         </G>
         <G onPress={() => but(2)} x="50%" y="32%">
-          <Rect x="48%" y="52%" width="30%" height="19%" opacity="0.15">
-            
-          </Rect>
+          <Rect x="48%" y="52%" width="30%" height="19%" opacity="0.15"></Rect>
         </G>
         <G onPress={() => but(1)} x="50%" y="72%">
-          <Rect x="49%" y="72%" width="30%" height="12%" opacity="0.15">
-            
-          </Rect>
+          <Rect x="49%" y="72%" width="30%" height="12%" opacity="0.15"></Rect>
         </G>
         <G onPress={() => but(1)} x="50%" y="84%">
-          <Rect x="29%" y="83%" width="50%" height="15%" opacity="0.15">
-            
-          </Rect>
+          <Rect x="29%" y="83%" width="50%" height="15%" opacity="0.15"></Rect>
         </G>
       </Svg>
       <Modal

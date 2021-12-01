@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "376719651300",
-    "project_id": "ordinal-throne-318602",
-    "storage_bucket": "ordinal-throne-318602.appspot.com"
+    "project_number": "118927736139",
+    "project_id": "pccc-fecf5",
+    "storage_bucket": "pccc-fecf5.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:376719651300:android:e317aff00a7908c520d7f1",
+        "mobilesdk_app_id": "1:118927736139:android:a70cb4f70460d5bd80bcce",
         "android_client_info": {
           "package_name": "com.sample.test"
         }
       },
       "oauth_client": [
         {
-          "client_id": "376719651300-4teqohs2b8ikamqmjvg1thevii0nkr2g.apps.googleusercontent.com",
+          "client_id": "118927736139-6dv8c3mhfe774ug159l0vst478el36dg.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBqrsF3NzErhHR6Y_uvfK27YC5pRMfKzEk"
+          "current_key": "AIzaSyAd809Ezu2lW7DSgSKHNnlh6TqTyPfNG7w"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "376719651300-4teqohs2b8ikamqmjvg1thevii0nkr2g.apps.googleusercontent.com",
+              "client_id": "118927736139-6dv8c3mhfe774ug159l0vst478el36dg.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
