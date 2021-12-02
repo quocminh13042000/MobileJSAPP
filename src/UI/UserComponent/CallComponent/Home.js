@@ -9,19 +9,13 @@ import {
   Linking,
 } from "react-native";
 import { StringeeClient } from "stringee-react-native";
-import { useNavigation } from "@react-navigation/native";
-import { UserServices } from "../../../services/User.service";
-import SoundPlayer from "react-native-sound-player";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import PushNotification from "react-native-push-notification";
+import { UserServices } from "../../../services/User.service";
 
-import { interval, Subscription } from "rxjs";
-const token = UserServices.token;
-var listUser = UserServices.listUser;
+import Ionicons from "react-native-vector-icons/Ionicons";
+const token =
+  "eyJjdHkiOiJzdHJpbmdlZS1hcGk7dj0xIiwidHlwIjoiSldUIiwiYWxnIjoiSFMyNTYifQ.eyJqdGkiOiJTS3FTdEFjWFJLT2ZYNWRZZVQ5QnNPekdZN3NlZno3YkctMTYzODQzNTYwNCIsImlzcyI6IlNLcVN0QWNYUktPZlg1ZFllVDlCc096R1k3c2VmejdiRyIsImV4cCI6MTYzODQ3ODgwNCwidXNlcklkIjoiYWRtaW40In0.nSfXMdKA-TYnsJzhgHHgdMfk4k7tJ2AXCFeEtGOH48c";
 
-var updateSubscription = new Subscription();
-
-var clientconnect = false;
 export default class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -33,29 +27,31 @@ export default class Home extends React.Component {
       onFailWithError: this.clientDidFailWithError,
       onRequestAccessToken: this.clientRequestAccessToken,
       onIncomingCall: this.callIncomingCall,
-      onIncomingCall2: this.callIncomingCall2,
       onCustomMessage: this.clientReceiveCustomMessage,
     };
   }
 
   componentDidMount() {
-    /*this.refs.stringeeClient.registerPush(
-      UserServices.token,
-      false, // only for iOS
-      false, // only for iOS
-      (status, code, message) => {
-        console.log(message);
-      }
-    );*/
     if (UserServices.token == "") {
       setTimeout(() => {
         this.componentDidMount();
       }, 2000);
     } else {
       this.client.current.connect(UserServices.token);
+      /*this.refs.stringeeClient.registerPush(
+        UserServices.token,
+        false, // only for iOS
+        false, // only for iOS
+        (status, code, message) => {
+          console.log(message);
+        }
+      );*/
+
       listUser = UserServices.listUser;
     }
   }
+
+  //Event
   // The client connects to Stringee server
   clientDidConnect = ({ userId }) => {
     console.log("clientDidConnect - " + userId);
@@ -86,11 +82,11 @@ export default class Home extends React.Component {
   clientRequestAccessToken = () => {
     console.log("_clientRequestAccessToken");
     // Token để kết nối tới Stringee server đã hết bạn. Bạn cần lấy token mới và gọi connect lại ở đây
-    this.client.current.connect(UserServices.token);
+    this.client.current.connect("NEW_TOKEN");
   };
 
   // IncomingCall event
-  callIncomingCall = ({
+  callIncomingCall = async ({
     callId,
     from,
     to,
@@ -118,10 +114,11 @@ export default class Home extends React.Component {
         "customDataFromYourServer-" +
         customDataFromYourServer
     );
-    PushNotification.localNotification({
+    await PushNotification.localNotification({
       //ios and android properties
-      title: "Cuộc gọi từ ITE R&D",
-      message: "Cuốc gọi : "+ to,
+      title: "ITE R&D thông báo cuộc gọi",
+      message: "Cuốc gọi từ: " + from,
+      id: "Call",
       playSound: true,
       soundName: "default",
       //android only properties
@@ -134,7 +131,6 @@ export default class Home extends React.Component {
       actions: ["Accept", "Reject"],
     });
 
-    //SoundPlayer.playSoundFile("telephone", "wav");
     this.props.navigation.navigate("Call", {
       callId: callId,
       from: from,
@@ -142,48 +138,6 @@ export default class Home extends React.Component {
       isOutgoingCall: false,
       isVideoCall: isVideoCall,
       useCall: true,
-      clientId: "aa",
-    });
-  };
-
-  // IncomingCall2 event
-  callIncomingCall2 = ({
-    callId,
-    from,
-    to,
-    fromAlias,
-    toAlias,
-    callType,
-    isVideoCall,
-    customDataFromYourServer,
-  }) => {
-    console.log(
-      "IncomingCall2Id-" +
-        callId +
-        " from-" +
-        from +
-        " to-" +
-        to +
-        " fromAlias-" +
-        fromAlias +
-        " toAlias-" +
-        toAlias +
-        " isVideoCall-" +
-        isVideoCall +
-        "callType-" +
-        callType +
-        "customDataFromYourServer-" +
-        customDataFromYourServer
-    );
-    //   const { navigation } = this.props;
-
-    this.props.navigation.navigate("Call", {
-      callId: callId,
-      from: from,
-      to: this.state.userId,
-      isOutgoingCall: false,
-      isVideoCall: isVideoCall,
-      useCall: false,
       clientId: this.client.current.getId(),
     });
   };
@@ -193,13 +147,9 @@ export default class Home extends React.Component {
     console.log("_clientReceiveCustomMessage: " + data);
   };
 
-  callButtonClick = (isStringeeCall, isVideoCall, data) => {
+  callButtonClick = (isStringeeCall, isVideoCall) => {
     Keyboard.dismiss();
 
-    if (data != null) {
-      this.state.to = data;
-    }
-    console.log(this.state.to);
     if (
       (this.state.to.length == 10 || this.state.to.length == 11) &&
       (this.state.to.slice(0, 1) == "8" || this.state.to.slice(0, 1) == "0")
@@ -215,29 +165,6 @@ export default class Home extends React.Component {
         clientId: this.client.current.getId(),
       });
     }
-  };
-
-  call = (data) => {
-    this.callButtonClick(true, false, data);
-  };
-
-  push_notif = async () => {
-    await PushNotification.localNotification({
-      //ios and android properties
-      title: "ITE R&D thông báo cuộc gọi",
-      message: "Cuốc gọi từ: " ,
-      id:'Call',
-      playSound: true,
-      soundName: "default",
-      //android only properties
-      channelId: "Calling",
-      autoCancel: false,
-      vibrate: true,
-      vibration: 300,
-      priority: "high",
-      invokeApp: false,
-      actions: ["Accept", "Reject"],
-    });
   };
 
   render() {
@@ -357,7 +284,6 @@ export default class Home extends React.Component {
       </>
     );
   }
-
   styles = StyleSheet.create({
     container: {
       marginLeft: 15,

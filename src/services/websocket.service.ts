@@ -1,8 +1,8 @@
 import { io } from "socket.io-client";
 import { UserServices } from "./User.service";
-import React from "react";
-import { CameraService } from "./camera.service";
 
+import { CameraService } from "./camera.service";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const socket = io("http://192.168.11.154:3000", {
   transports: ["websocket", "polling", "flashsocket"],
@@ -272,10 +272,12 @@ function setDisableData(a: any) {
   }
 }
 
-function SetLogin(level: any) {
+async function SetLogin(level: any) {
   console.log(level[0].length)
   if (level[0].length != 0) {
     console.log(level[0][0].levelManager);
+    await AsyncStorage.setItem("Login", "true" );
+    await AsyncStorage.setItem("User_token", level[0][0].tokenCall);
     switch (level[0][0].levelManager) {
       case 1:
         UserServices.Level = 1;

@@ -13,20 +13,20 @@ import { createDrawerNavigator, DrawerItem } from "@react-navigation/drawer";
 import UserScreen from "./src/UI/UserComponent/UserComponent";
 import { SafeAreaView, StatusBar } from "react-native";
 import Home from "./src/UI/UserComponent/CallComponent/Home";
+import Call from "./src/UI/UserComponent/CallComponent/Call";
 import { interval, Subscription } from "rxjs";
 import CallScreen from "./src/UI/UserComponent/CallScreen";
-
 
 const Drawer = createDrawerNavigator();
 export default function App() {
   /*var [Call, setCall] = React.useState(false);
-  updateSubscription = interval(1000).subscribe((val) => {
-    if (UserServices.Login) {
-      setCall((x) => (x = true));
-      Home;
-      updateSubscription.unsubscribe();
-    }
-  });*/
+    updateSubscription = interval(1000).subscribe((val) => {
+      if (UserServices.Login) {
+        setCall((x) => (x = true));
+        Home;
+        updateSubscription.unsubscribe();
+      }
+    });*/
   return (
     <NavigationContainer>
       <SafeAreaView>
@@ -44,7 +44,7 @@ export default function App() {
             backgroundColor: "#A1FFB3",
             width: "80%",
           },
-           swipeEnabled:false,
+          swipeEnabled: false,
         }}
       >
         <Drawer.Screen
@@ -89,13 +89,19 @@ export default function App() {
             headerShown: false,
           }}
         />
+        <Drawer.Screen
+          name="Call"
+          component={CallScreen}
+          options={{
+            drawerLabel: () => null,
+            drawerIcon: () => null,
+            headerShown: false,
+          }}
+        />
       </Drawer.Navigator>
-      {/*Call ? (
-        <View style={{ display: "none" }}>
-          <Home></Home>
-        </View>
-      ) : null */}
-      <View style={{ display: "none" }}><Home ></Home></View>
+      <View style={{ display: "none" }}>
+        <Home> </Home>
+      </View>
     </NavigationContainer>
   );
 }

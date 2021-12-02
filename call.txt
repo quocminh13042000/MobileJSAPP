@@ -322,7 +322,10 @@ export default class Call extends React.Component {
   };
 
   endCall = (isHangup) => {
-    if (this.props.route.params.useCall) {
+    if (
+      this.props.route.params.useCall == true ||
+      this.props.route.params.useCall == undefined
+    ) {
       if (isHangup) {
         this.call.hangup(this.state.callId, (status, code, message) => {
           console.log("hangup: " + message);
@@ -481,7 +484,7 @@ export default class Call extends React.Component {
     }
   };
 
-  render() {
+  render(){
     return (
       <View style={this.styles.container}>
         

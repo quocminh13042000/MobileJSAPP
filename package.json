@@ -7,6 +7,7 @@
         "eject": "expo eject"
     },
     "dependencies": {
+        "@react-native-async-storage/async-storage": "^1.15.14",
         "@react-native-community/datetimepicker": "^3.5.2",
         "@react-native-community/viewpager": "^5.0.11",
         "@react-native-firebase/app": "^13.0.1",
@@ -43,7 +44,7 @@
         "react-native-webview": "^11.14.2",
         "rxjs": "^7.4.0",
         "socket.io-client": "^4.3.2",
-        "stringee-react-native": "^1.4.18"
+        "stringee-react-native": "^1.4.5"
     },
     "devDependencies": {
         "@babel/core": "^7.9.0"

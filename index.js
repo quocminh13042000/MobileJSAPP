@@ -12,12 +12,12 @@ PushNotification.configure({
     onAction: function(notification) {
         console.log("ACTION:", notification.action);
         console.log("NOTIFICATION:", notification);
-        if (notification.action == Accept) {
+        /*if (notification.action == Accept) {
             console.log('accepted')
         } else {
             console.log('rejected')
             PushNotification.cancelLocalNotification('Call')
-        }
+        }*/
         // process the action
     },
 });
