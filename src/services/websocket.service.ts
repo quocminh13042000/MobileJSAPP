@@ -274,9 +274,9 @@ function setDisableData(a: any) {
 
 async function SetLogin(level: any) {
   console.log(level[0].length)
-  if (level[0].length != 0) {
+  if (level[0].length != 0 && UserServices.USername == level[0][0].UserName) {
     console.log(level[0][0].levelManager);
-    await AsyncStorage.setItem("Login", "true" );
+    await AsyncStorage.setItem("Login", "true");
     await AsyncStorage.setItem("User_token", level[0][0].tokenCall);
     switch (level[0][0].levelManager) {
       case 1:
@@ -295,9 +295,8 @@ async function SetLogin(level: any) {
         UserServices.show = "Login Failed";
         break;
     }
-    UserServices.token =level[0][0].tokenCall;
-  }
-  else {
+    UserServices.token = level[0][0].tokenCall;
+  } else {
     UserServices.show = "Login Failed";
   }
   

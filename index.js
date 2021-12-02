@@ -1,6 +1,8 @@
 import 'react-native-gesture-handler';
 import { registerRootComponent } from 'expo';
-
+import {
+    useNavigation
+} from "@react-navigation/native";
 
 import PushNotification from "react-native-push-notification";
 import App from './App';
@@ -8,16 +10,18 @@ import App from './App';
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);
 // It also ensures that whether you load the app in Expo Go or in a native build,
 // the environment is set up appropriately
+
 PushNotification.configure({
     onAction: function(notification) {
         console.log("ACTION:", notification.action);
         console.log("NOTIFICATION:", notification);
-        /*if (notification.action == Accept) {
+        if (notification.action == "Accept") {
             console.log('accepted')
+                //navigation.navigate('Home')
         } else {
             console.log('rejected')
             PushNotification.cancelLocalNotification('Call')
-        }*/
+        }
         // process the action
     },
 });

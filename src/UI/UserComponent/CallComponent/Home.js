@@ -15,7 +15,7 @@ import { UserServices } from "../../../services/User.service";
 import Ionicons from "react-native-vector-icons/Ionicons";
 const token =
   "eyJjdHkiOiJzdHJpbmdlZS1hcGk7dj0xIiwidHlwIjoiSldUIiwiYWxnIjoiSFMyNTYifQ.eyJqdGkiOiJTS3FTdEFjWFJLT2ZYNWRZZVQ5QnNPekdZN3NlZno3YkctMTYzODQzNTYwNCIsImlzcyI6IlNLcVN0QWNYUktPZlg1ZFllVDlCc096R1k3c2VmejdiRyIsImV4cCI6MTYzODQ3ODgwNCwidXNlcklkIjoiYWRtaW40In0.nSfXMdKA-TYnsJzhgHHgdMfk4k7tJ2AXCFeEtGOH48c";
-
+var listUser = UserServices.listUser;
 export default class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -118,17 +118,22 @@ export default class Home extends React.Component {
       //ios and android properties
       title: "ITE R&D thông báo cuộc gọi",
       message: "Cuốc gọi từ: " + from,
-      id: "Call",
       playSound: true,
       soundName: "default",
       //android only properties
       channelId: "Calling",
-      autoCancel: false,
+      autoCancel: true,
+      // largeIcon: 'ic_launcher',
+      // smallIcon: 'ic_launcher',
+
       vibrate: true,
       vibration: 300,
       priority: "high",
       invokeApp: false,
+      //ios only properties...is there any?
       actions: ["Accept", "Reject"],
+      //reply_placeholder_text: "Write your response...", // (required)
+      //reply_button_text: "Reply", // (required)
     });
 
     this.props.navigation.navigate("Call", {
@@ -165,6 +170,30 @@ export default class Home extends React.Component {
         clientId: this.client.current.getId(),
       });
     }
+  };
+  push_notif = async () => {
+    await PushNotification.localNotification({
+      //ios and android properties
+      title: "ITE R&D thông báo cuộc gọi",
+      message: "Cuốc gọi từ: ",
+      playSound: true,
+      soundName: "default",
+      //android only properties
+      channelId: "Calling",
+      autoCancel: true,
+      // largeIcon: 'ic_launcher',
+      // smallIcon: 'ic_launcher',
+
+      vibrate: true,
+      vibration: 300,
+      priority: "high",
+      invokeApp: false,
+      //ios only properties...is there any?
+      actions: ["Accept", "Reject"],
+      //reply_placeholder_text: "Write your response...", // (required)
+      //reply_button_text: "Reply", // (required)
+    });
+    console.log('push noti')
   };
 
   render() {

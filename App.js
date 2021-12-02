@@ -13,20 +13,14 @@ import { createDrawerNavigator, DrawerItem } from "@react-navigation/drawer";
 import UserScreen from "./src/UI/UserComponent/UserComponent";
 import { SafeAreaView, StatusBar } from "react-native";
 import Home from "./src/UI/UserComponent/CallComponent/Home";
-import Call from "./src/UI/UserComponent/CallComponent/Call";
-import { interval, Subscription } from "rxjs";
+
 import CallScreen from "./src/UI/UserComponent/CallScreen";
+
+import PushNotification from "react-native-push-notification";
 
 const Drawer = createDrawerNavigator();
 export default function App() {
-  /*var [Call, setCall] = React.useState(false);
-    updateSubscription = interval(1000).subscribe((val) => {
-      if (UserServices.Login) {
-        setCall((x) => (x = true));
-        Home;
-        updateSubscription.unsubscribe();
-      }
-    });*/
+
   return (
     <NavigationContainer>
       <SafeAreaView>
